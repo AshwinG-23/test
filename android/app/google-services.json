@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "142583904467",
+    "project_id": "otpauth-f1caf",
+    "storage_bucket": "otpauth-f1caf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142583904467:android:a033e19403f4d92a6f7c26",
+        "android_client_info": {
+          "package_name": "com.awesomeproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzcRhszcUdYv67-2JjhfW8s4yyNJuT8L8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
