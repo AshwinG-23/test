@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, SafeAreaView, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TextInput, SafeAreaView, Button, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import auth from '@react-native-firebase/auth';
 
@@ -7,7 +7,19 @@ export default function App() {
   const [confirm, setConfirm] = useState(null);
   const [userName, setUserName] = useState("");
   const [otpCode, setOtpCode] = useState("");
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState(null);
   const navigation = useNavigation();
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
   async function signInWithPhoneNumber(phoneNumber) {
     const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
@@ -17,11 +29,13 @@ export default function App() {
   async function confirmCode() {
     try {
       await confirm.confirm(otpCode);
-      navigation.navigate('Home');
+      navigation.navigate('Home'); // Navigate to Home on successful confirmation
     } catch (error) {
-      console.log('Invalid code.');
+      Alert.alert("Please enter a valid code");
     }
   }
+
+  if (initializing) return null;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -59,6 +73,12 @@ export default function App() {
             <Button title="Send code" onPress={() => signInWithPhoneNumber(userName)} />
           </View>
         )}
+      </View>
+      <View>
+        <Button
+          title="for Admin Login Click here"
+          onPress={() => navigation.navigate("AdminSignIn")}
+        />
       </View>
     </SafeAreaView>
   );
